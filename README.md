@@ -10,4 +10,7 @@ utils.py : contains helper functions
 
 metrics.py: methods for calculating the metrics
 
+tf_idf.py: class to generate TF-IDF of tweet tokens
+
+
 
