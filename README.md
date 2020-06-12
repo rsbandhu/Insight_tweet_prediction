@@ -3,3 +3,11 @@ Prediction of probability of different engagement modes to tweets displayed on H
 
 
 code directory contains the necessary files to run the training models
+
+tweetrecords.py : contains the class that handles all operations related to tweets before they are ready for input to model
+
+utils.py : contains helper functions
+
+metrics.py: methods for calculating the metrics
+
+
