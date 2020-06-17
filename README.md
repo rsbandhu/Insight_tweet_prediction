@@ -1,6 +1,13 @@
 # insight_tweet_prediction
 Prediction of probability of different engagement modes to tweets displayed on Home Timeline
 
+## Installation
+
+Use the package manager [pip](https://pip.pypa.io/en/stable/) to install foobar.
+
+```bash
+pip install transformers
+```
 
 ## code directory contains the necessary files to run the training models
 
