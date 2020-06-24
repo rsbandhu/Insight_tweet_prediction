@@ -1,4 +1,8 @@
 from sklearn.metrics import precision_recall_curve, auc, log_loss
+import numpy as np
+
+def logits_to_prob(x):
+  return 1.0/(1.0 + np.exp(-x))
 
 def metric_log_loss(y_t, y_p):
   return log_loss(y_t, y_p)
