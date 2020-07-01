@@ -1,5 +1,5 @@
 # insight_tweet_prediction
-Prediction of probability of different engagement modes to tweets displayed on Home Timeline
+Prediction of probability of Retweet engagement modes to tweets displayed on Home Timeline
 
 ## Installation
 
@@ -9,7 +9,15 @@ Use the package manager [pip](https://pip.pypa.io/en/stable/) to install foobar.
 pip install transformers
 ```
 
-## code directory contains the necessary files to run the training models
+### Directory Structure 
+
+|-- /code
+|-- /saved_models
+|-- /data
+|-- /output
+|-- /logs
+
+### contains the necessary files to run the training models
 
 *  **tweetrecords.py :**  class that handles all operations related to tweets before they are ready for input to model
 
