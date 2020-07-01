@@ -33,7 +33,7 @@ pip install transformers
 
 #### RandomForest model using token TF-IDF and tweet features
 
-![RandomForest Model](/images/RF.png)
+<img src="/images/RF.png" width = "350" height="300">
 
 *  **`python train_RandomForest.py --mode=eval:`** train file to run RandomForest model
 
