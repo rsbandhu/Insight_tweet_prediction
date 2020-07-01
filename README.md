@@ -31,9 +31,11 @@ pip install transformers
 
 *  **`tf_idf.py:`** class to generate TF-IDF of tweet tokens
 
-#### SKlearn models
+#### RandomForest model using token TF-IDF and tweet features
 
-*  **`train_RandomForest.py:`** train file to run RandomForest model
+![RandomForest Model](/images/RF.png)
+
+*  **`python train_RandomForest.py --mode=eval:`** train file to run RandomForest model
 
 #### Neural Network Models
 
