@@ -32,7 +32,7 @@ class NCF(nn.Module):
         self.out_layer2 = nn.Linear(20 , 1) 
 
         self.logistic = nn.Sigmoid()
-        self.model_name = 'MLP_Baseline'
+        self.model_name = 'NCF_MF_MLP'
 
     def forward(self, token_embeds_mean, features, engaging_user, engaged_user=None):
         
@@ -44,10 +44,6 @@ class NCF(nn.Module):
             X = self.fc_layers[i](X)
             X = nn.ReLU()(X)
         
-        #concat engaging user ID (one hot) with tweet features
-        #user_features = torch.cat((engaging_user, features), axis = 1)
-        #user_features = user_features.long()
-
         #Embed engaging user ID (one hot) and tweet features
         user_features_embed_mlp = self.embedding_user_mlp(engaging_user)
         user_features_embed_mf = self.embedding_user_mf(engaging_user)
@@ -55,7 +51,6 @@ class NCF(nn.Module):
         #Kronecker product of token embeddings and  (userID + feature) embeddings
         X_mf =torch.mul(user_features_embed_mf, X)
 
-        #print("shapes: token_embeds_mean: {}, user_features_embed_mlp: {}, user_features_embed_mf: {}".format(token_embeds_mean.shape, user_features_embed_mlp.shape,user_features_embed_mf.shape ))
         # concat token embeddings with (userID + feature) embeddings for MLP
         X_mlp = torch.cat([X, user_features_embed_mlp], dim=-1)  
 
