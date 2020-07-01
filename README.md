@@ -11,11 +11,15 @@ pip install transformers
 
 ### Directory Structure 
 
-|-- /code
-|-- /saved_models
-|-- /data
-|-- /output
-|-- /logs
+|-- /'code' : 'contains' all python files
+
+|-- '/saved_models': pre-trained models
+
+|-- '/data': Train and validation files with tweet records
+
+|-- '/output': Where outputs will be saved
+
+|-- '/logs': folder to save log files
 
 ### contains the necessary files to run the training models
 
