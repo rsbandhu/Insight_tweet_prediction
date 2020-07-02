@@ -3,10 +3,10 @@ Prediction of probability of Retweet engagement modes to tweets displayed on Hom
 
 ## Installation
 
-Use the package manager [pip](https://pip.pypa.io/en/stable/) to install foobar.
+Use conda to install pytorch
 
 ```bash
-pip install transformers
+conda install pytorch torchvision cudatoolkit=10.2 -c pytorch
 ```
 
 Download the data and features from the link below for running validation on the trained model
