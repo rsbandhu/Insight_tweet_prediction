@@ -9,6 +9,10 @@ Use the package manager [pip](https://pip.pypa.io/en/stable/) to install foobar.
 pip install transformers
 ```
 
+Download the data and features from the link below for running validation on the trained model
+
+https://drive.google.com/drive/folders/1Ac4HyXvx4witywmXnDzkWzH1JEeAcWv-?usp=sharing
+
 ### Directory Structure 
 
 |-- /`code` : contains all python files
