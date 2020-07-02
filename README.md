@@ -48,7 +48,7 @@ python train_RandomForest.py --mode=eval
 To evaluate the trained MLP NN model, run:
 
 ```bash
-python train_tweet_NN.py  --mode=eval
+python train_tweet_NN.py  --mode=eval --data_dir= '../data'
 ```
 
 ##### 3. Neural Collaborative Filtering
@@ -58,7 +58,7 @@ python train_tweet_NN.py  --mode=eval
 To evaluate the trained NCF model, run:
 
 ```bash
-python train_tweet_NN.py  --mode=eval
+python train_tweet_NN.py  --mode=eval --model=NCF --data_dir= '../data'
 ```
 
 ### Key Files utilized by all the models
