@@ -1,0 +1,11 @@
+download the zip file in README and make sure to keep the files in 'saved_features" folders in this directory
+
+The following files are required for running validation on the trained model
+
+  (1) engaged_usr_follower_following.pickle
+
+  (2) engaging_userid_hash_dict.pickle
+
+  (3) engaging_usr_follower_following.pickle
+
+  (4) language_to_number_dict_train_retweet_min_19.pickle

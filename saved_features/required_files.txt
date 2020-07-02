@@ -1,9 +1,0 @@
-The files are required for running validation on the trained model
-
-engaged_usr_follower_following.pickle
-
-engaging_userid_hash_dict.pickle
-
-engaging_usr_follower_following.pickle
-
-language_to_number_dict_train_retweet_min_19.pickle
