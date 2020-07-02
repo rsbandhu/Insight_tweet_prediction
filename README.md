@@ -33,7 +33,11 @@ https://drive.google.com/drive/folders/1Ac4HyXvx4witywmXnDzkWzH1JEeAcWv-?usp=sha
 
 <img src="/images/RF.png" width = "350" height="300">
 
-*  **`python train_RandomForest.py --mode=eval:`** train file to run RandomForest model
+Evaluate the trained RandomForest model
+
+```bash
+python train_RandomForest.py --mode=eval 
+```
 
 *  **`tf_idf.py:`** class to generate TF-IDF of tweet tokens
 
@@ -41,22 +45,32 @@ https://drive.google.com/drive/folders/1Ac4HyXvx4witywmXnDzkWzH1JEeAcWv-?usp=sha
 
 <img src="/images/MLP.png" width = "350" height="300">
 
-* **`MLP_Baseline.py`** Multilayerd NN model
+To evaluate the trained MLP NN model, run:
+
+```bash
+python train_tweet_NN.py  --mode=eval
+```
 
 ##### 3. Neural Collaborative Filtering
 
 <img src="/images/NCF.png" width = "400" height="300">
 
-* **`NCF_MLP.py`** model implementing Neural Collaborative Filtering 
+To evaluate the trained NCF model, run:
 
-* **`engine.py`** engine that trains either Multilayer NN or Neural Collaborative Filtering model
+```bash
+python train_tweet_NN.py  --mode=eval
+```
 
-* **`python train_tweet_NN.py  --mode=eval`** file that loads the parameters and executes the training and eval engine
-
-### Files utilized by all 3 models
+### Key Files utilized by all the models
 
 *  **`tweetrecords.py :`**  class that handles all operations related to tweets before they are ready for input to model
 
 *  **`utils.py:`** contains helper functions
 
 *  **`metrics.py:`**  methods for calculating the metrics
+
+* **`MLP_Baseline.py`** Multilayerd NN model
+
+* **`NCF_MLP.py`** model implementing Neural Collaborative Filtering 
+
+* **`engine.py`** engine that trains either Multilayer NN or Neural Collaborative Filtering model
