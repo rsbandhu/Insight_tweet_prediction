@@ -39,8 +39,6 @@ Evaluate the trained RandomForest model
 python train_RandomForest.py --mode=eval 
 ```
 
-*  **`tf_idf.py:`** class to generate TF-IDF of tweet tokens
-
 ##### 2. Multilayer Neural Network Model
 
 <img src="/images/MLP.png" width = "350" height="300">
@@ -68,6 +66,8 @@ python train_tweet_NN.py  --mode=eval --model=NCF --data_dir= '../data'
 *  **`utils.py:`** contains helper functions
 
 *  **`metrics.py:`**  methods for calculating the metrics
+
+*  **`tf_idf.py:`** class to generate TF-IDF of tweet tokens
 
 * **`MLP_Baseline.py`** Multilayerd NN model
 
