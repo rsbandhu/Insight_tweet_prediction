@@ -41,10 +41,16 @@ parser.add_argument('--batch_size', help='batch size', type=int, default=1000)
 #train_first_1000
 trainf = 'train_retweet_min_19.tsv'
 valf = 'val_retweet_min_19.tsv'
+parser.add_argument('--model', help = 'Model type: MLP or NCF', default = 'MLP')
 parser.add_argument('--mode', help = 'train or eval: train_eval or eval', default = 'train_eval')
-model_name_MLP = 'MLP_R4'
-model_name_NCF = 'NCF_MF_MLP_R5'
-parser.add_argument('--model_name', help = 'change the last number for new training', default = model_name_MLP)
+
+model_name_MLP = 'MLP'
+model_name_NCF = 'NCF_MF_MLP'
+parser.add_argument('--model_name', help = 'change the model name as needed', default = model_name_MLP)
+MLP_pretrained = 'MLP_R4.pt'
+NCF_pretrained = "NCF_MF_MLP.pt"
+parser.add_argument('--pretrained_model', help = 'filename of pretrained model',  default = MLP_pretrained)
+
 parser.add_argument('--vocab_file', help='vocabulary term document count file', default = 'document_freq_count_train.pickle')
 parser.add_argument('--train_file', help = 'name of train file', default = trainf)
 parser.add_argument('--eval_file', help = 'name of validation file', default = valf)
@@ -55,7 +61,6 @@ parser.add_argument('--output_dir', help = 'output data directory', default = ".
 parser.add_argument('--saved_model_dir', help = 'directory to save trained models', default = "../saved_models")
 parser.add_argument('--log_dir', help = 'output data directory', default = "../logs")
 
-parser.add_argument('--pretrained_model', help = 'filename of pretrained model',  default = 'MLP_Baseline_0_2020_6_18_14_32.pt')
 parser.add_argument('--log_every', help = 'log data every this number of epochss', default = 1)
 parser.add_argument('--eval_every', help = 'log data every this number of batches', default = 2)
 parser.add_argument('--train_epochs', help = 'Train this many number of epochs', default = 30)
@@ -112,21 +117,32 @@ def main():
     #Instantiating Val tweet records
     TR_val = tweetrecords.TweetRecords(val_filepath, batch_size, embed_tokens_next=True)
     logging.info("loading unique_id_token embeddings dict")
-    fhandle = bz2.BZ2File('../../s3mnt/data/val_retweet_min_19_token_embeds_mean.pickle', 'r')
+
+    fhandle = bz2.BZ2File(os.path.join(data_dir, 'val_retweet_min_19_token_embeds_mean.pickle', 'r'))
+
     TR_val.unique_id_tokenembedsdict = pickle.load(fhandle)
     fhandle.close()
 
     rng = np.random.RandomState(2020)
    
-    engine = MLP_Baseline.MLP_BaselineEngine(args)
-    #engine = NCF_MLP.NCF_Engine(args)
+    if args.model == 'MLP':
+        engine = MLP_Baseline.MLP_BaselineEngine(args)
+        
+        args.pretrained_model = 
+    elif args.model == 'NCF':
+        engine = NCF_MLP.NCF_Engine(args)
+        args.model_name = model_name_NCF
+        args.pretrained_model = NCF_pretrained
+
     logging.info('Starting Training')
 
     if args.mode == 'train_eval':
         #Instantiating Train tweet records
         TR_train = tweetrecords.TweetRecords(train_filepath, batch_size, embed_tokens_next=True)
         print("loading unique_id_token embeddings dict")
-        fhandle = bz2.BZ2File('../../s3mnt/data/train_retweet_min_19_token_embeds_mean.pickle', 'r')
+
+        fhandle = bz2.BZ2File(os.path.join(data_dir, 'train_retweet_min_19_token_embeds_mean.pickle', 'r'))
+
         TR_train.unique_id_tokenembedsdict = pickle.load(fhandle)
         fhandle.close()
 
