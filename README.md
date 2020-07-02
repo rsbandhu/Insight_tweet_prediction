@@ -27,9 +27,9 @@ https://drive.google.com/drive/folders/1Ac4HyXvx4witywmXnDzkWzH1JEeAcWv-?usp=sha
 
 |-- `/logs:` folder to save log files
 
+### Models trained for Retweet probability prediction
 
-
-#### RandomForest model using token TF-IDF and tweet features
+##### 1. RandomForest model using token TF-IDF and tweet features
 
 <img src="/images/RF.png" width = "350" height="300">
 
@@ -37,13 +37,13 @@ https://drive.google.com/drive/folders/1Ac4HyXvx4witywmXnDzkWzH1JEeAcWv-?usp=sha
 
 *  **`tf_idf.py:`** class to generate TF-IDF of tweet tokens
 
-#### Multilayer Neural Network Model
+##### 2. Multilayer Neural Network Model
 
 <img src="/images/MLP.png" width = "350" height="300">
 
 * **`MLP_Baseline.py`** Multilayerd NN model
 
-#### Neural Collaborative Filtering
+##### 3. Neural Collaborative Filtering
 
 <img src="/images/NCF.png" width = "400" height="300">
 
@@ -60,7 +60,3 @@ https://drive.google.com/drive/folders/1Ac4HyXvx4witywmXnDzkWzH1JEeAcWv-?usp=sha
 *  **`utils.py:`** contains helper functions
 
 *  **`metrics.py:`**  methods for calculating the metrics
-
-## data directory contains the necessary files to run the training models
-
-*  **test50:** file containing sample of 50 records
