@@ -36,8 +36,6 @@ class Engine(object):
             assert hasattr(self, 'model'), 'Please specify the exact model !'
             engagement_mode = 1
             tokens_embed_batch = torch.as_tensor(np.array(tokens_embed_batch), dtype=torch.float).squeeze()
-            #print(tokens_embed_batch.shape, torch.max(tokens_embed_batch), torch.min(tokens_embed_batch))
-            #tokens_embed_batch.requires_grad = False
             tokens_embed_batch = tokens_embed_batch.to(self.device)
 
             y_train = torch.as_tensor(y_t, dtype=torch.float)
@@ -49,16 +47,11 @@ class Engine(object):
             if engaging_user is not None:
                 engaging_user = torch.as_tensor(engaging_user, dtype=torch.long)
                 engaging_user = engaging_user.to(self.device)
-
-            #print("shapes::  tokens: {}, features: {}, y_targets: {}, engaging_user: {}".format(tokens_embed_batch.shape, features_batch.shape, y_train.shape, engaging_user.shape))
-            #print(torch.max(tokens_embed_batch), torch.min(tokens_embed_batch))
             
             self.opt.zero_grad()
             y_pred = self.model(tokens_embed_batch, features_batch, engaging_user, engaged_user)
-            #print(torch.max(y_pred), torch.min(y_pred))
 
             loss = self.loss(y_pred, y_train)
-            #print("shape of loss", loss.shape)
             loss.backward()
             self.opt.step()
             loss = loss.item()
@@ -77,7 +70,6 @@ class Engine(object):
 
             if engaging_user is not None:
                 engaging_user = torch.as_tensor(engaging_user, dtype=torch.long).to(self.device)
-            #print("shapes::  tokens: {}, features: {}, y_targets: {}".format(tokens_batch.shape, features_batch.shape, y_train.shape))   
             with torch.no_grad():
                 y_pred = self.model(tokens_embed_batch, features_batch, engaging_user, engaged_user)
                 loss = self.loss(y_pred, y_train)
@@ -113,14 +105,12 @@ class Engine(object):
         while tokens_batch:
             try:
                 yt_batch = np.array(yt_batch)[:, engagement_mode] # 1  for engagement mode = retweet
-                #print("number of positive sample :  ",np.sum(yt_batch))
+               
                 if mode == 'train':
                     loss, y_pred = self.train_single_batch(tokens_batch, features_batch, yt_batch, engaging_userid_hash_batch, engaged_user)
                 else:
                     loss, y_pred = self.eval_single_batch(tokens_batch, features_batch, yt_batch, engaging_userid_hash_batch, engaged_user)
                 total_loss += loss
-                #print('[Training Epoch: {}] total_loss: {:.5f}, Loss: {:.5f}'.format(epoch_id, total_loss, loss))
-                #y_pred = y_pred[:, 1]
                 
                 #logging.info("epoch_id: {}, y_pred_max: {}, y_pred_90p: {}, y_pred_10p: {}, y_pred_min: {} ".format(epoch_id, np.max(y_pred), np.quantile(y_pred, 0.9), np.quantile(y_pred, 0.1), np.min(y_pred)))
                 
@@ -154,11 +144,18 @@ class Engine(object):
     def save_model(self, args, epoch_id):
         assert hasattr(self, 'model'), 'Please specify the exact model !'
         saved_model_dir = args.saved_model_dir
-        model_name = self.model.model_name
+        #model_name = self.model.model_name
         localtime = utils.get_current_local_time()
-        filename = model_name+'_'+str(epoch_id)+'_'+localtime+'.pt'
+        filename = args.model_name + '_' + localtime + '_' + str(epoch_id) + '.pt'
         model_dir = os.path.join(saved_model_dir, filename)
         torch.save(self.model.state_dict(), model_dir)
+
+
+    def load_model(self, saved_model_path):
+
+        state_dict = torch.load(saved_model_path, map_location = self.device)  # ensure all storage are on gpu
+        self.model.load_state_dict(state_dict)
+
 
     def set_device(self):
             #set deivce for computing NN
