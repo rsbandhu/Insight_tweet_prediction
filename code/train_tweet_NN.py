@@ -115,8 +115,6 @@ def main():
     TR_val.unique_id_tokenembedsdict = pickle.load(fhandle)
     fhandle.close()
 
-    rng = np.random.RandomState(2020)
-   
     #engine = MLP_Baseline.MLP_BaselineEngine(args)
     engine = NCF_MLP.NCF_Engine(args)
     logging.info('Starting Training')
