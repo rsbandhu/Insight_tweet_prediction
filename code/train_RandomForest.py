@@ -26,13 +26,18 @@ parser.add_argument('--engage_mode', help='tweet: 0, retweet: 1, retweet with co
 parser.add_argument('--mode', help = 'train or eval: train_eval or eval', default = 'train_eval')
 parser.add_argument('--model_name', help = 'change the last number for new training', default = 'RandomForest_R3')
 parser.add_argument('--batch_size', help='batch size', type=int, default=500)
-parser.add_argument('--data_dir', help="data directory", default='../data')
-parser.add_argument('--vocab_file', help='vocabulary term document count file', default = 'document_freq_count_train.pickle')
+
 parser.add_argument('--train_file', help = 'name of train file', default = "train_retweet_min_19.tsv")
-"test_50.tsv"
 parser.add_argument('--eval_file', help = 'name of validation file', default = "val_retweet_min_19.tsv")
-parser.add_argument('--output_dir', help = 'output data directory', default = "../saved_models")
+parser.add_argument('--vocab_file', help='vocabulary term document count file', default = 'document_freq_count_train.pickle')
+
+parser.add_argument('--pretrained_model', help = 'filename of pretrained model',  default = 'RandomForest_train_retweet_min_19.pickle')
+
+parser.add_argument('--data_dir', help="data directory", default='../data')
+parser.add_argument('--output_dir', help = 'output data directory', default = "../output")
+parser.add_argument('--saved_model_dir', help = 'directory to save trained models', default = "../saved_models")
 parser.add_argument('--log_dir', help = 'output data directory', default = "../logs")
+
 parser.add_argument('--log_every', help = 'log data every this number of batches', default = 100)
 args = parser.parse_args()
 
@@ -221,23 +226,28 @@ def main():
     TF_IDF = tf_idf.tf_idf(term_document_count)
 
     print("engagement mode: {}, value: {}".format(engage_mode, engagement_dict[engage_mode]))
-    TR_train = tweetrecords.TweetRecords(trainfile_path,batch_size, engage_mode)
-    data_gen_train = TR_train.tokens_target_gen()
-
+    
     rng = np.random.RandomState(2020)
-    model = RandomForestClassifier(warm_start=True, n_estimators=1)
-    model.classes_ = [0,1]
+    
 
-    logging.info('Starting Training')
+    
     #train(model, data_gen, TF_IDF, engage_mode)
     if args.mode == 'train_eval':
+        model = RandomForestClassifier(warm_start=True, n_estimators=1)
+        model.classes_ = [0,1]
+        TR_train = tweetrecords.TweetRecords(trainfile_path,batch_size, engage_mode)
+        data_gen_train = TR_train.tokens_target_gen()
+        logging.info('Starting Training')
         train_eval(model, data_gen_train, valfile_path, TF_IDF, engagement_dict[engage_mode], args, train=True)
+        TR_train.close_file()
         logging.info('Finished Training')
     elif args.mode == 'eval':
-        eval(model, valfile_path, TF_IDF, engagement_mode, args)
+        pretrained_file_path = os.path.join(args.saved_model_dir, args.pretrained_model)
+        model = pickle.load(open(pretrained_file_path, 'rb'))
+        eval(model, valfile_path, TF_IDF, engagement_dict[engage_mode], args)
         logging.info('Finished Evaluation') 
 
-    TR_train.close_file()
+    
 
 
 if __name__ == "__main__":

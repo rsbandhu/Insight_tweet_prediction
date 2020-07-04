@@ -118,7 +118,9 @@ def main():
     #Instantiating Val tweet records
     TR_val = tweetrecords.TweetRecords(val_filepath, batch_size, embed_tokens_next=True)
     logging.info("loading unique_id_token embeddings dict")
+
     fhandle = bz2.BZ2File(os.path.join(data_dir, 'val_retweet_min_19_token_embeds_mean.pickle', 'r'))
+
     TR_val.unique_id_tokenembedsdict = pickle.load(fhandle)
     fhandle.close()
 
@@ -138,7 +140,9 @@ def main():
         #Instantiating Train tweet records
         TR_train = tweetrecords.TweetRecords(train_filepath, batch_size, embed_tokens_next=True)
         print("loading unique_id_token embeddings dict")
+
         fhandle = bz2.BZ2File(os.path.join(data_dir, 'train_retweet_min_19_token_embeds_mean.pickle', 'r'))
+
         TR_train.unique_id_tokenembedsdict = pickle.load(fhandle)
         fhandle.close()
 
