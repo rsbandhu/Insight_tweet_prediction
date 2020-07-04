@@ -21,10 +21,6 @@ import torch.optim as optim
 import torch.optim.lr_scheduler as sched
 import torch.utils.data as data
 
-from transformers.data.metrics.squad_metrics import (
-    compute_predictions_log_probs, compute_predictions_logits, squad_evaluate,
-)
-
 from torch.utils.data import DataLoader, RandomSampler, SequentialSampler
 
 import MLP_Baseline
