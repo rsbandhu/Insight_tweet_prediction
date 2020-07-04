@@ -61,6 +61,7 @@ parser.add_argument('--output_dir', help = 'output data directory', default = ".
 parser.add_argument('--saved_model_dir', help = 'directory to save trained models', default = "../saved_models")
 parser.add_argument('--log_dir', help = 'output data directory', default = "../logs")
 
+
 parser.add_argument('--log_every', help = 'log data every this number of epochss', default = 1)
 parser.add_argument('--eval_every', help = 'log data every this number of batches', default = 2)
 parser.add_argument('--train_epochs', help = 'Train this many number of epochs', default = 30)
@@ -128,7 +129,6 @@ def main():
     if args.model == 'MLP':
         engine = MLP_Baseline.MLP_BaselineEngine(args)
         
-        args.pretrained_model = 
     elif args.model == 'NCF':
         engine = NCF_MLP.NCF_Engine(args)
         args.model_name = model_name_NCF
