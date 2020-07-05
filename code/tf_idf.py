@@ -7,10 +7,6 @@ import argparse
 
 from scipy.sparse import csr_matrix
 
-parser = argparse.ArgumentParser()
-parser.add_argument('--mode', help='batch size', default='tf_idf')
-args = parser.parse_args()
-
 class tf_idf(object):
 
     def __init__(self, term_document_count):
