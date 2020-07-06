@@ -90,16 +90,9 @@ def main():
     except OSError as e:
         print("loggiing directory exists")
 
-    #log_file = 'train_MLP_Baseline_round3_' + str(engage_mode) + '.log'
     log_file = args.model_name +'_' + str(engage_mode) + '.log'
-
     utils.set_logger(os.path.join(logging_dir, log_file))
-    logging.info('model = Multi layer NN with BERT embeddings and other features as input, engagement mode: Retweet')
-    logging.info('Does not use UserID embeddings')
-    #logging.info('model  = Neural Collaborative Filtering, engagement, Optimizer: Adam, mode: Retweet')
-    logging.info('Using BERT embeddings values of tweet tokens and one hot encoding of other features')
-    #logging.info('Uses  user id embeddings')
-    logging.info('training set: '.format(args.train_file))
+    
     #logging.info('args parameters: %r ', args)
     for arg, value in sorted(vars(args).items()):
         logging.info("Argument %s: %r", arg, value)    
@@ -114,26 +107,29 @@ def main():
     #Instantiating Val tweet records
     TR_val = tweetrecords.TweetRecords(val_filepath, batch_size, embed_tokens_next=True)
     logging.info("loading unique_id_token embeddings dict")
-
-    fhandle = bz2.BZ2File(os.path.join(data_dir, 'val_retweet_min_19_token_embeds_mean.pickle', 'r'))
-
+    fhandle = bz2.BZ2File(os.path.join(data_dir, 'val_retweet_min_19_token_embeds_mean.pickle'), 'r')
     TR_val.unique_id_tokenembedsdict = pickle.load(fhandle)
     fhandle.close()
 
     rng = np.random.RandomState(2020)
    
     if args.model == 'MLP':
+        logging.info('model = Multi layer NN with BERT embeddings and other features as input, engagement mode: Retweet')
+        logging.info('Does not use UserID embeddings')
+        logging.info('Using BERT embeddings values of tweet tokens and one hot encoding of other features')
         engine = MLP_Baseline.MLP_BaselineEngine(args)
         
     elif args.model == 'NCF':
+        logging.info('model  = Neural Collaborative Filtering, engagement, Optimizer: Adam, mode: Retweet')
+        logging.info('Uses  user id embeddings')
         engine = NCF_MLP.NCF_Engine(args)
         args.model_name = model_name_NCF
         args.pretrained_model = NCF_pretrained
 
-    logging.info('Starting Training')
-
     if args.mode == 'train_eval':
         #Instantiating Train tweet records
+        logging.info("Starting Training")
+        logging.info('training set: '.format(args.train_file))
         TR_train = tweetrecords.TweetRecords(train_filepath, batch_size, embed_tokens_next=True)
         print("loading unique_id_token embeddings dict")
 
@@ -158,11 +154,12 @@ def main():
     
         logging.info('Finished Training')
     elif args.mode == 'eval':
+        logging.info("Starting Eval")
         saved_model_path = os.path.join(args.saved_model_dir  ,  args.pretrained_model)
         engine.load_model(saved_model_path)
         engine.train_an_epoch(TR_val, args, 0, mode='eval')
-    
-    
+        logging.info('Finished Eval')
+
     TR_val.close_file()
 
 if __name__ == "__main__":
